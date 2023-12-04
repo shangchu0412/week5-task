@@ -104,13 +104,14 @@ const addBtn = document.querySelector('.addTicket-btn')
 ticketRate.addEventListener('input', function () {
   const rateValue = parseInt(ticketRate.value);
   if (isNaN(rateValue) || rateValue < 1 || rateValue > 10) {
-    swal({
+    Swal.fire({
       title: "輸入錯誤",
       text: "請輸入1到10之間的數字",
       icon: "error",
       confirmButtonColor: "#3085d6",
       confirmButtonText: "確認"
     });
+    ticketRate.value = "";
   }
 })
 
@@ -130,7 +131,7 @@ inputElements.forEach((item, index) => {
 
 //新增套票
 addBtn.addEventListener('click', function (e) {
-e.preventDefault();
+  e.preventDefault();
   if (ticketName.value === '' || ticketImgUrl.value === '' || ticketRegion.value === '' || ticketDescription.value === '' || ticketNum.value === '' || ticketPrice.value === '' || ticketRate.value === '') {
     inputElements.forEach((item, index) => {
       const message = messages[index];
@@ -140,6 +141,13 @@ e.preventDefault();
         message.style.display = 'none';
       }
     })
+    Swal.fire({
+      title: "未輸入",
+      text: "還有資料尚未輸入",
+      icon: "info",
+      confirmButtonColor: "#3085d6",
+      confirmButtonText: "確認"
+    });
   } else {
     let str = {};
     str.id = data.length;
@@ -153,5 +161,13 @@ e.preventDefault();
     data.push(str);
     init(data);
     form.reset();
+    Swal.fire({
+      toast: true,
+      position: "top-end",
+      icon: "success",
+      title: "新增成功",
+      showConfirmButton: false,
+      timer: 1500
+    });
   }
 });
